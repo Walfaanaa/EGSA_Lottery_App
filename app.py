@@ -1,5 +1,5 @@
 # -----------------------------------
-# 🎟️ EGSA Lottery Winners (Authorized One-Time Draw)
+# 🎟️ EGSA Lottery Winners (Authorized One-Time Draw with Admin Reset)
 # -----------------------------------
 
 import streamlit as st
@@ -46,28 +46,41 @@ password = st.text_input("Enter admin passcode to enable draw:", type="password"
 
 AUTHORIZED_CODE = "EGSA2025!"  # 🔒 Change this to your private code
 
+# -------------------------------
+# 4️⃣ If Authorized
+# -------------------------------
 if password == AUTHORIZED_CODE:
-    st.success("✅ Access granted. You can now perform the draw.")
+    st.success("✅ Access granted. You can now perform the draw or manage results.")
 
-    # Check if draw was already done before
+    # -----------------------------------
+    # 🔁 Optional: Admin Reset for Next Round
+    # -----------------------------------
     if os.path.exists(WINNER_FILE):
-        st.warning("⚠️ A previous draw has already been conducted. Only one draw is allowed.")
-        previous_winners = pd.read_excel(WINNER_FILE)
+        with st.expander("⚙️ Admin Reset Options"):
+            st.warning("⚠️ A previous draw has already been conducted.")
+            if st.button("🔄 Reset for New Round (Admin Only)"):
+                os.remove(WINNER_FILE)
+                st.success("✅ Winners record deleted. You can now run a new draw.")
+                st.experimental_rerun()
+
+        # Show previous winners
         st.subheader("🎉 Previous Winners")
+        previous_winners = pd.read_excel(WINNER_FILE)
         st.dataframe(previous_winners)
+
     else:
         # -------------------------------
-        # 4️⃣ Select Number of Winners
+        # 5️⃣ Select Number of Winners
         # -------------------------------
         num_winners = st.number_input(
-            "🏆 Number of winners to select", 
-            min_value=1, 
-            max_value=len(members_df), 
+            "🏆 Number of winners to select",
+            min_value=1,
+            max_value=len(members_df),
             value=1
         )
 
         # -------------------------------
-        # 5️⃣ Pick Winners (One-Time Only)
+        # 6️⃣ Pick Winners (One-Time Only)
         # -------------------------------
         if st.button("🎲 Pick Winners"):
             placeholder = st.empty()
@@ -89,7 +102,7 @@ if password == AUTHORIZED_CODE:
                 winners.to_excel(WINNER_FILE, index=False)
 
             # -------------------------------
-            # 6️⃣ Download Winners
+            # 7️⃣ Download Winners
             # -------------------------------
             def convert_df_to_excel(df):
                 output = BytesIO()
@@ -106,6 +119,9 @@ if password == AUTHORIZED_CODE:
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
 
+# -------------------------------
+# 8️⃣ If Not Authorized
+# -------------------------------
 else:
     if password:
         st.error("❌ Invalid passcode. Access denied.")
@@ -117,7 +133,8 @@ else:
 st.markdown("""
 ---
 🧩 **Admin Instructions:**  
-- To reset and allow a new draw, **delete `winners_record.xlsx`** from your app folder or GitHub repo.  
+- To reset and allow a new draw, click the **🔄 Reset for New Round** button (admin only).  
+- Or manually delete the file: `winners_record.xlsx` from your app folder or GitHub repo.  
 - Update `members_data.xlsx` anytime to refresh the members list.  
 - Keep your passcode secure and private.
 """)
