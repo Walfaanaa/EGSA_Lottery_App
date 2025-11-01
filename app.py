@@ -44,7 +44,7 @@ st.subheader("🔑 Authorized Draw Access")
 
 password = st.text_input("Enter admin passcode to enable draw:", type="password")
 
-AUTHORIZED_CODE = "EGSA2025_!"  # 🔒 Change this to your private code
+AUTHORIZED_CODE = "EGSA2025_$"  # 🔒 Change this to your private code
 
 # -------------------------------
 # 4️⃣ If Authorized
