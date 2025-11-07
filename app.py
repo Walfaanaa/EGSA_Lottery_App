@@ -10,7 +10,10 @@ from dotenv import load_dotenv
 # -------------------------------
 st.set_page_config(page_title="🎟️ EGSA Lottery Winners", layout="wide", page_icon="🎟️")
 st.title("🎟️ EGSA Lottery Winners App (Authorized & One-Time Draw)")
-st.markdown("Welcome to the **EGSA Lottery Winners App**. This system ensures fair, transparent, and one-time-only draws managed by authorized personnel.")
+st.markdown(
+    "Welcome to the **EGSA Lottery Winners App**. "
+    "This system ensures fair, transparent, and one-time-only draws managed by authorized personnel."
+)
 
 # -------------------------------
 # 2️⃣ Load Members Data
@@ -57,7 +60,12 @@ if password == AUTHORIZED_CODE:
     # Pick Winners
     # -------------------------------
     else:
-        num_winners = st.number_input("🏆 Number of winners to select", min_value=1, max_value=len(members_df), value=1)
+        num_winners = st.number_input(
+            "🏆 Number of winners to select",
+            min_value=1,
+            max_value=len(members_df),
+            value=1
+        )
 
         if st.button("🎲 Pick Winners"):
             placeholder = st.empty()
@@ -75,6 +83,7 @@ if password == AUTHORIZED_CODE:
                 st.subheader("🎉 Winners List")
                 st.dataframe(winners)
 
+                # Save winners record
                 winners.to_excel(WINNER_FILE, index=False)
 
                 # Download winners
