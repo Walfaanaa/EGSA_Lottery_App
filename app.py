@@ -39,18 +39,25 @@ except FileNotFoundError:
 
 # -------------------------------
 # 3️⃣ Admin Authorization
-# -------------------------------
-st.subheader("🔑 Authorized Draw Access")
+import streamlit as st
+from dotenv import load_dotenv
+import os
 
+# Load .env file
+load_dotenv()
+
+# Get admin password from environment
+AUTHORIZED_CODE = os.getenv("STREAMLIT_ADMIN_PASSWORD")
+
+# Ask user to input password
 password = st.text_input("Enter admin passcode to enable draw:", type="password")
 
-AUTHORIZED_CODE = "EGSA2025_$"  # 🔒 Change this to your private code
-
-# -------------------------------
-# 4️⃣ If Authorized
-# -------------------------------
+# Check password
 if password == AUTHORIZED_CODE:
-    st.success("✅ Access granted. You can now perform the draw or manage results.")
+    st.success("Access granted! You can now enable the draw.")
+    # Your draw code here
+else:
+    st.warning("Access denied.")
 
     # -----------------------------------
     # 🔁 Optional: Admin Reset for Next Round
@@ -138,3 +145,4 @@ st.markdown("""
 - Update `members_data.xlsx` anytime to refresh the members list.  
 - Keep your passcode secure and private.
 """)
+
