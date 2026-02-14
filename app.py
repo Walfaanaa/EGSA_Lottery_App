@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 # 1️⃣ Page Setup
 # -------------------------------
 st.set_page_config(page_title="🎟️ EGSA Lottery Winners", layout="wide", page_icon="🎟️")
+
 st.title("🎟️ EGSA Lottery Winners App (Authorized & One-Time Draw)")
 st.markdown(
     "Welcome to the **EGSA Lottery Winners App**. "
@@ -20,6 +21,7 @@ st.markdown(
 # -------------------------------
 DATA_FILE = "members_data.xlsx"
 WINNER_FILE = "winners_record.xlsx"
+RESET_PASSWORD = "EGSA_RESET_2026"   # 🔐 Second password
 
 try:
     members_df = pd.read_excel(DATA_FILE)
@@ -38,18 +40,31 @@ AUTHORIZED_CODE = os.getenv("STREAMLIT_ADMIN_PASSWORD")
 password = st.text_input("Enter admin passcode to enable draw:", type="password")
 
 if password == AUTHORIZED_CODE:
+
     st.success("Access granted! You can now enable the draw.")
 
     # -------------------------------
-    # Admin Reset
+    # Reset Section WITH SECOND PASSWORD
     # -------------------------------
     if os.path.exists(WINNER_FILE):
+
         with st.expander("⚙️ Admin Reset Options"):
+
             st.warning("⚠️ A previous draw has already been conducted.")
+
+            reset_pass_input = st.text_input(
+                "Enter reset password to reset draw",
+                type="password"
+            )
+
             if st.button("🔄 Reset for New Round (Admin Only)"):
-                os.remove(WINNER_FILE)
-                st.success("✅ Winners record deleted. You can now run a new draw.")
-                st.experimental_rerun()
+
+                if reset_pass_input == RESET_PASSWORD:
+                    os.remove(WINNER_FILE)
+                    st.success("✅ Winners record deleted. You can now run a new draw.")
+                    st.experimental_rerun()
+                else:
+                    st.error("❌ Incorrect reset password.")
 
         # Show previous winners
         previous_winners = pd.read_excel(WINNER_FILE)
@@ -60,6 +75,7 @@ if password == AUTHORIZED_CODE:
     # Pick Winners
     # -------------------------------
     else:
+
         num_winners = st.number_input(
             "🏆 Number of winners to select",
             min_value=1,
@@ -68,17 +84,23 @@ if password == AUTHORIZED_CODE:
         )
 
         if st.button("🎲 Pick Winners"):
+
             placeholder = st.empty()
+
             with placeholder.container():
+
                 st.info("Picking winners... Please wait.")
+
                 progress_text = st.empty()
                 progress_bar = st.progress(0)
+
                 for i in range(101):
                     time.sleep(0.01)
                     progress_text.text(f"Progress: {i}%")
                     progress_bar.progress(i)
 
                 winners = members_df.sample(n=num_winners).reset_index(drop=True)
+
                 st.success("🎉 Winners Selected!")
                 st.subheader("🎉 Winners List")
                 st.dataframe(winners)
