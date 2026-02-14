@@ -8,7 +8,11 @@ from dotenv import load_dotenv
 # -------------------------------
 # 1️⃣ Page Setup
 # -------------------------------
-st.set_page_config(page_title="🎟️ EGSA Lottery Winners", layout="wide", page_icon="🎟️")
+st.set_page_config(
+    page_title="🎟️ EGSA Lottery Winners",
+    layout="wide",
+    page_icon="🎟️"
+)
 
 st.title("🎟️ EGSA Lottery Winners App (Authorized & One-Time Draw)")
 st.markdown(
@@ -21,7 +25,6 @@ st.markdown(
 # -------------------------------
 DATA_FILE = "members_data.xlsx"
 WINNER_FILE = "winners_record.xlsx"
-RESET_PASSWORD = "EGSA_RESET_2026"   # 🔐 Second password
 
 try:
     members_df = pd.read_excel(DATA_FILE)
@@ -32,11 +35,21 @@ except FileNotFoundError:
     st.stop()
 
 # -------------------------------
-# 3️⃣ Admin Authorization
+# 3️⃣ Load Passwords from .env
 # -------------------------------
 load_dotenv()
-AUTHORIZED_CODE = os.getenv("STREAMLIT_ADMIN_PASSWORD")
 
+AUTHORIZED_CODE = os.getenv("STREAMLIT_ADMIN_PASSWORD")
+RESET_PASSWORD = os.getenv("STREAMLIT_RESET_PASSWORD")
+
+if AUTHORIZED_CODE is None:
+    st.warning("⚠️ Admin password not set! Add STREAMLIT_ADMIN_PASSWORD to your .env file.")
+if RESET_PASSWORD is None:
+    st.warning("⚠️ Reset password not set! Add STREAMLIT_RESET_PASSWORD to your .env file.")
+
+# -------------------------------
+# 4️⃣ Admin Authorization
+# -------------------------------
 password = st.text_input("Enter admin passcode to enable draw:", type="password")
 
 if password == AUTHORIZED_CODE:
@@ -44,7 +57,7 @@ if password == AUTHORIZED_CODE:
     st.success("Access granted! You can now enable the draw.")
 
     # -------------------------------
-    # Reset Section WITH SECOND PASSWORD
+    # Reset Section Using .env PASSWORD
     # -------------------------------
     if os.path.exists(WINNER_FILE):
 
