@@ -62,8 +62,25 @@ st.markdown(
 )
 
 # -------------------------------
-# 🎨 Header Section with Blue Background
+# 🎨 Header Section with Red Background
 # -------------------------------
+st.markdown(
+    """
+    <style>
+    /* Header section styling */
+    .header-section {
+        background-color: red;  /* Red background */
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        color: white;  /* White text for contrast */
+        font-family: Arial, sans-serif;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 st.markdown(
     """
     <div class="header-section">
@@ -194,3 +211,4 @@ else:
     if password:
         st.error("❌ Invalid passcode. Access denied.")
     st.info("You can view the member list, but only authorized staff can pick winners.")
+
