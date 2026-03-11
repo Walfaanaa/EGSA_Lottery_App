@@ -15,27 +15,27 @@ st.set_page_config(
 )
 
 # -------------------------------
-# 🎨 Background + Text Styling
+# 🎨 Custom Blue UI Style
 # -------------------------------
 st.markdown(
     """
     <style>
     /* Full page background */
     body {
-        background-color: #f0f8ff;  /* Light blue page background */
+        background-color: #1E90FF;  /* Dodger Blue page background */
     }
     [data-testid="stAppViewContainer"] {
-        background-color: #f0f8ff;
+        background-color: #1E90FF;
     }
     /* Tables */
-    .dataframe {
-        background-color: #ffffff;
-        color: #000000;
+    .dataframe, .stDataFrame>div>div>div>div>table {
+        background-color: #87CEFA !important; /* Light Sky Blue for tables */
+        color: #000000 !important; /* Black text for readability */
     }
     /* Custom warning box */
     .custom-warning {
-        background-color: black;
-        color: #00bfff;  /* Deep Sky Blue */
+        background-color: #104E8B;  /* Dark Blue */
+        color: #00FFFF;  /* Cyan text */
         padding: 10px;
         border-radius: 5px;
         text-align: left;
@@ -44,12 +44,17 @@ st.markdown(
     }
     /* 🎨 Main Header Section */
     .header-section {
-        background-color: red;  /* Red background */
+        background-color: #4169E1;  /* Royal Blue */
         padding: 20px;
         border-radius: 10px;
         text-align: center;
         color: white;  /* White text for contrast */
         font-family: Arial, sans-serif;
+    }
+    /* Center all h1 headers */
+    h1, h3 {
+        text-align: center;
+        color: white;
     }
     </style>
     """,
@@ -57,7 +62,7 @@ st.markdown(
 )
 
 # -------------------------------
-# 🎨 Header Section with Red Background
+# 🎨 Header Section with Blue Background
 # -------------------------------
 st.markdown(
     """
@@ -79,7 +84,7 @@ WINNER_FILE = "winners_record.xlsx"
 try:
     members_df = pd.read_excel(DATA_FILE)
     st.success(f"✅ {len(members_df)} members loaded successfully from admin file.")
-    st.dataframe(members_df)
+    st.dataframe(members_df)  # Blue table background applied
 except FileNotFoundError:
     st.error("❌ members_data.xlsx file not found! Please upload it to your app folder or GitHub repo.")
     st.stop()
@@ -131,7 +136,7 @@ if password == AUTHORIZED_CODE:
         # Show previous winners
         previous_winners = pd.read_excel(WINNER_FILE)
         st.subheader("🎉 Previous Winners")
-        st.dataframe(previous_winners)
+        st.dataframe(previous_winners)  # Blue table background
 
     # Pick Winners
     else:
@@ -164,7 +169,7 @@ if password == AUTHORIZED_CODE:
                 st.success("🎉 Winners Selected!")
                 st.balloons()
                 st.subheader("🎉 Winners List")
-                st.dataframe(winners)
+                st.dataframe(winners)  # Blue table background
 
                 # Save winners record
                 winners.to_excel(WINNER_FILE, index=False)
