@@ -15,19 +15,49 @@ st.set_page_config(
 )
 
 # -------------------------------
+# 🎨 Background Color + Text Styling
+# -------------------------------
+st.markdown(
+    """
+    <style>
+    /* Full page background */
+    body {
+        background-color: #f0f8ff;  /* Light blue background */
+    }
+    /* Main container styling */
+    [data-testid="stAppViewContainer"] {
+        background-color: #f0f8ff;
+    }
+    /* Titles and headers */
+    h1, h3 {
+        color: #000000;
+        text-align: center;
+    }
+    /* Paragraph text */
+    p {
+        color: green;
+        font-size: 18px;
+        text-align: center;
+    }
+    /* Style tables */
+    .dataframe {
+        background-color: #ffffff; /* White table background */
+        color: #000000; /* Text color */
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# -------------------------------
 # 🎨 Centered Welcome + Green Description
 # -------------------------------
 st.title("🎟️ EGSA Lottery Winners App (Authorized & One-Time Draw)")
 
 st.markdown(
     """
-    <h3 style='text-align:center;'>
-    Welcome to the <b>EGSA Lottery Winners App</b>
-    </h3>
-
-    <p style='text-align:center; font-size:18px; color:green;'>
-    This system ensures fair, transparent, and one-time-only draws managed by authorized personnel.
-    </p>
+    <h3>Welcome to the <b>EGSA Lottery Winners App</b></h3>
+    <p>This system ensures fair, transparent, and one-time-only draws managed by authorized personnel.</p>
     """,
     unsafe_allow_html=True
 )
