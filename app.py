@@ -15,16 +15,15 @@ st.set_page_config(
 )
 
 # -------------------------------
-# 🎨 Background Color + Text Styling
+# 🎨 Background + Text Styling
 # -------------------------------
 st.markdown(
     """
     <style>
     /* Full page background */
     body {
-        background-color: #f0f8ff;  /* Light blue background */
+        background-color: #f0f8ff;  /* Light blue */
     }
-    /* Main container styling */
     [data-testid="stAppViewContainer"] {
         background-color: #f0f8ff;
     }
@@ -39,10 +38,20 @@ st.markdown(
         font-size: 18px;
         text-align: center;
     }
-    /* Style tables */
+    /* Tables */
     .dataframe {
-        background-color: #ffffff; /* White table background */
-        color: #000000; /* Text color */
+        background-color: #ffffff;
+        color: #000000;
+    }
+    /* Custom warning box */
+    .custom-warning {
+        background-color: black;
+        color: #00bfff;  /* Deep Sky Blue */
+        padding: 10px;
+        border-radius: 5px;
+        text-align: left;
+        margin-bottom: 10px;
+        font-weight: bold;
     }
     </style>
     """,
@@ -84,10 +93,13 @@ load_dotenv()
 AUTHORIZED_CODE = os.getenv("STREAMLIT_ADMIN_PASSWORD")
 RESET_PASSWORD = os.getenv("STREAMLIT_RESET_PASSWORD")
 
+# -------------------------------
+# Display warnings with custom style
+# -------------------------------
 if AUTHORIZED_CODE is None:
-    st.warning("⚠️ Admin password not set! Add STREAMLIT_ADMIN_PASSWORD to your .env file.")
+    st.markdown('<div class="custom-warning">⚠️ Admin password not set! Add STREAMLIT_ADMIN_PASSWORD to your .env file.</div>', unsafe_allow_html=True)
 if RESET_PASSWORD is None:
-    st.warning("⚠️ Reset password not set! Add STREAMLIT_RESET_PASSWORD to your .env file.")
+    st.markdown('<div class="custom-warning">⚠️ Reset password not set! Add STREAMLIT_RESET_PASSWORD to your .env file.</div>', unsafe_allow_html=True)
 
 # -------------------------------
 # 4️⃣ Admin Authorization
