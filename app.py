@@ -22,21 +22,10 @@ st.markdown(
     <style>
     /* Full page background */
     body {
-        background-color: #f0f8ff;  /* Light blue */
+        background-color: #f0f8ff;  /* Light blue page background */
     }
     [data-testid="stAppViewContainer"] {
         background-color: #f0f8ff;
-    }
-    /* Titles and headers */
-    h1, h3 {
-        color: #000000;
-        text-align: center;
-    }
-    /* Paragraph text */
-    p {
-        color: green;
-        font-size: 18px;
-        text-align: center;
     }
     /* Tables */
     .dataframe {
@@ -53,20 +42,30 @@ st.markdown(
         margin-bottom: 10px;
         font-weight: bold;
     }
+    /* 🎨 Main Header Section */
+    .header-section {
+        background-color: red;  /* Red background */
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        color: white;  /* White text for contrast */
+        font-family: Arial, sans-serif;
+    }
     </style>
     """,
     unsafe_allow_html=True
 )
 
 # -------------------------------
-# 🎨 Centered Welcome + Green Description
+# 🎨 Header Section with Red Background
 # -------------------------------
-st.title("🎟️ EGSA Lottery Winners App (Authorized & One-Time Draw)")
-
 st.markdown(
     """
-    <h3>Welcome to the <b>EGSA Lottery Winners App</b></h3>
-    <p>This system ensures fair, transparent, and one-time-only draws managed by authorized personnel.</p>
+    <div class="header-section">
+        <h1>🎟️ EGSA Lottery Winners App (Authorized & One-Time Draw)</h1>
+        <h3>Welcome to the EGSA Lottery Winners App</h3>
+        <p>This system ensures fair, transparent, and one-time-only draws managed by authorized personnel.</p>
+    </div>
     """,
     unsafe_allow_html=True
 )
@@ -93,9 +92,7 @@ load_dotenv()
 AUTHORIZED_CODE = os.getenv("STREAMLIT_ADMIN_PASSWORD")
 RESET_PASSWORD = os.getenv("STREAMLIT_RESET_PASSWORD")
 
-# -------------------------------
 # Display warnings with custom style
-# -------------------------------
 if AUTHORIZED_CODE is None:
     st.markdown('<div class="custom-warning">⚠️ Admin password not set! Add STREAMLIT_ADMIN_PASSWORD to your .env file.</div>', unsafe_allow_html=True)
 if RESET_PASSWORD is None:
@@ -110,9 +107,7 @@ if password == AUTHORIZED_CODE:
 
     st.success("Access granted! You can now enable the draw.")
 
-    # -------------------------------
     # Reset Section Using .env PASSWORD
-    # -------------------------------
     if os.path.exists(WINNER_FILE):
 
         with st.expander("⚙️ Admin Reset Options"):
@@ -138,9 +133,7 @@ if password == AUTHORIZED_CODE:
         st.subheader("🎉 Previous Winners")
         st.dataframe(previous_winners)
 
-    # -------------------------------
     # Pick Winners
-    # -------------------------------
     else:
 
         num_winners = st.number_input(
