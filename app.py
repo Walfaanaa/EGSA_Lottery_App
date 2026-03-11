@@ -14,10 +14,22 @@ st.set_page_config(
     page_icon="🎟️"
 )
 
+# -------------------------------
+# 🎨 Centered Welcome + Green Description
+# -------------------------------
 st.title("🎟️ EGSA Lottery Winners App (Authorized & One-Time Draw)")
+
 st.markdown(
-    "Welcome to the **EGSA Lottery Winners App**. "
-    "This system ensures fair, transparent, and one-time-only draws managed by authorized personnel."
+    """
+    <h3 style='text-align:center;'>
+    Welcome to the <b>EGSA Lottery Winners App</b>
+    </h3>
+
+    <p style='text-align:center; font-size:18px; color:green;'>
+    This system ensures fair, transparent, and one-time-only draws managed by authorized personnel.
+    </p>
+    """,
+    unsafe_allow_html=True
 )
 
 # -------------------------------
@@ -115,6 +127,7 @@ if password == AUTHORIZED_CODE:
                 winners = members_df.sample(n=num_winners).reset_index(drop=True)
 
                 st.success("🎉 Winners Selected!")
+                st.balloons()
                 st.subheader("🎉 Winners List")
                 st.dataframe(winners)
 
