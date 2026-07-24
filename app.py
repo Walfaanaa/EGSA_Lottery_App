@@ -79,7 +79,7 @@ h1, h3 {
 st.markdown("""
 <div class="header-section">
     <h1>🎟️ EGSA Lottery Winners App (Authorized & One-Time Draw)</h1>
-    <h3>Welcome to the EGSA Lottery Winners App</h3>
+    <h3>Welcome to the EGSA Uqqubii Lottery Winners App</h3>
     <p>This system ensures fair, transparent, and one-time-only draws managed by authorized personnel.</p>
 </div>
 """, unsafe_allow_html=True)
