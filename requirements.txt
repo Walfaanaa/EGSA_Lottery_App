@@ -4,4 +4,3 @@ xlsxwriter
 python-dotenv
 openpyxl
 mysql-connector-python
-
